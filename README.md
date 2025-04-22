@@ -23,7 +23,7 @@ node app.js
 
 3. Acesse `http://localhost:3000` no seu navegador.
 
-## 📸 Créditos
+## Créditos
 
 Foto e conteúdo de autoria da própria desenvolvedora.
 
