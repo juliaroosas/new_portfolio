@@ -1,22 +1,61 @@
 <%- include('partials/header') %>
 <main class="container">
-  <h1>Formação Acadêmica</h1>
-  <ul>
-    <li>Desenvolvimento de Software Multiplataforma – Fatec São José dos Campos (em andamento)</li>
-    <li>Mestrado em Linguística – Unicamp (2015–2017)</li>
-    <li>Licenciatura em Letras – UFLA (2011–2014)</li>
-  </ul>
+  <h1>Formação e Habilidades</h1>
 
-  <h1>Formação Complementar</h1>
-  <ul>
-    <li>HTML e CSS (Coder House)</li>
-    <li>Escola de Inovadores – Centro Paula Souza</li>
-  </ul>
+  <div class="content-grid">
+    <article class="content-card">
+      <h2>Formação Acadêmica</h2>
+      <ul class="custom-list">
+        <li>Desenvolvimento de Software Multiplataforma – Fatec São José dos Campos <span class="status">(em andamento)</span></li>
+        <li>Mestrado em Linguística – Unicamp (2015–2017)</li>
+        <li>Licenciatura em Letras – UFLA (2011–2014)</li>
+      </ul>
+    </article>
 
-  <h1>Habilidades</h1>
-  <ul>
-    <li>HTML, CSS, JavaScript, Node.js, Python, Flask, MySQL</li>
-    <li>Canva, PowerApps, Git</li>
-  </ul>
+    <article class="content-card">
+      <h2>Formação Complementar</h2>
+      <ul class="custom-list">
+        <li>HTML e CSS (Coder House)</li>
+        <li>Escola de Inovadores – Centro Paula Souza</li>
+      </ul>
+    </article>
+
+    <article class="content-card">
+      <h2>Habilidades</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>Front-end</h3>
+          <ul class="custom-list">
+            <li>HTML, CSS</li>
+            <li>Bootstrap, Tailwind CSS</li>
+            <li>JavaScript, TypeScript</li>
+            <li>React</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Back-end</h3>
+          <ul class="custom-list">
+            <li>Node.js</li>
+            <li>Python, Flask</li>
+            <li>SQL</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Ferramentas</h3>
+          <ul class="custom-list">
+            <li>Git</li>
+            <li>Power Apps</li>
+            <li>Asana, Jira, Trello</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Metodologias</h3>
+          <ul class="custom-list">
+            <li>Scrum</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
 </main>
 <%- include('partials/footer') %>

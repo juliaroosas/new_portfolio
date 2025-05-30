@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-dsm",
+  "version": "1.0.0",
+  "description": "Portfolio desenvolvido para a disciplina de Desenvolvimento Web II",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "portfolio",
+    "express",
+    "ejs",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

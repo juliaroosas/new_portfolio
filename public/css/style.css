@@ -1,63 +1,755 @@
+:root {
+  --primary-color: #3A0E6F;
+  --primary-gradient: linear-gradient(135deg, #3A0E6F 0%, #5E1999 100%);
+  --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8f7ff 100%);
+  --background: #F8F7FF;
+  --text-color: #3A0E6F;
+  --text-light: #3A0E6F;
+  --text-menu: #FFFFFF;
+  --white: #FFFFFF;
+  --shadow: 0 10px 20px rgba(58, 14, 111, 0.1);
+  --shadow-hover: 0 15px 30px rgba(58, 14, 111, 0.2);
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f7f5f2;
-  color: #333;
+  background-color: var(--background);
+  color: var(--text-color);
+  line-height: 1.6;
 }
+
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 60px 20px;
 }
+
 .center {
   text-align: center;
 }
+
 header {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 15px 0;
+  background: var(--primary-gradient);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: auto;
-  padding: 0 20px;
+  padding: 15px 20px;
 }
+
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #111;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-menu);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
 }
+
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
 }
+
 .nav-links a {
-  color: #111;
+  color: var(--text-menu);
   text-decoration: none;
   font-weight: 500;
+  font-size: 1.1rem;
+  position: relative;
+  padding: 5px 0;
+  transition: all 0.3s ease;
+  opacity: 0.9;
 }
+
 .nav-links a:hover {
-  color: #6c63ff;
+  opacity: 1;
 }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--text-menu);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
 .perfil.grande {
-  width: 180px;
-  height: 180px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 20px;
+  margin: 40px auto;
+  display: block;
+  box-shadow: var(--shadow);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(0.8) rotate(-10deg);
+  animation: profileAnimation 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s forwards;
 }
+
+.perfil.grande:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Efeito esfumaçado para a foto de perfil */
+.perfil.grande::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: var(--primary-color);
+  border-radius: 50%;
+  filter: blur(45px);
+  opacity: 0.7;
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.perfil.grande::after {
+  content: '';
+  position: absolute;
+  width: 160%;
+  height: 160%;
+  top: -30%;
+  left: -30%;
+  background: var(--primary-gradient);
+  border-radius: 50%;
+  filter: blur(55px);
+  opacity: 0.6;
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.perfil.grande:hover::before,
+.perfil.grande:hover::after {
+  filter: blur(65px);
+  opacity: 0.8;
+  width: 180%;
+  height: 180%;
+  top: -40%;
+  left: -40%;
+  transform: scale(1.1);
+}
+
+.projeto-card {
+  background: var(--card-gradient);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow);
+  transition: all 0.5s ease;
+  border: 1px solid rgba(58, 14, 111, 0.1);
+}
+
+.projeto-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-hover);
+}
+
 .projeto-img {
   max-width: 100%;
-  margin-top: 10px;
-  border-radius: 12px;
+  border-radius: 15px;
+  margin-top: 20px;
+  transition: transform 0.5s ease;
 }
+
+.projeto-card:hover .projeto-img {
+  transform: scale(1.02);
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: -1px;
+}
+
+h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.5px;
+}
+
+h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+p {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.projeto-card p {
+  color: var(--text-color);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+}
+
 footer {
   text-align: center;
-  padding: 30px 0;
-  font-size: 0.9rem;
-  color: #999;
+  padding: 15px 0;
+  background: var(--primary-gradient);
+  color: var(--text-menu);
+  box-shadow: 0 -10px 20px rgba(58, 14, 111, 0.1);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
 }
+
+footer p {
+  margin: 0;
+  color: var(--text-menu);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.container > * {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.4rem; }
+
+  .container {
+    padding: 40px 20px;
+  }
+}
+
+/* Efeitos de Hover nos Cards */
+.projeto-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.projeto-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(58, 14, 111, 0.1) 0%, rgba(94, 25, 153, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  border-radius: 20px;
+}
+
+.projeto-card:hover::before {
+  opacity: 1;
+}
+
+/* Garantindo que todos os textos tenham a mesma cor */
+p, 
+.projeto-card p,
+.section-description,
+.skill-description,
+.contact-info,
+.about-text,
+.experience-description,
+.education-details,
+.project-description {
+  color: var(--text-color);
+}
+
+/* Links dentro do conteúdo (não no menu) */
+.content a {
+  color: var(--text-color);
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.content a:hover {
+  opacity: 0.8;
+}
+
+/* Mantendo textos do menu e footer em branco para contraste */
+.nav-links a,
+footer,
+footer p {
+  color: var(--text-menu);
+}
+
+/* Estilo para os ícones de contato */
+.contact-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+.contact-icons a {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.contact-icons a:hover {
+  color: var(--primary-color);
+  transform: translateY(-5px);
+  opacity: 0.8;
+}
+
+.contact-icons i {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--background);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.contact-icons a:hover i {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Ajuste específico para a página de contato */
+.container:has(.contact-icons) {
+  min-height: calc(100vh - 180px); /* Ajusta a altura mínima considerando o header e footer */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.contact-icons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+.contact-icons a {
+  color: var(--primary-color);
+  font-size: 3rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+/* Estilo para a grade de projetos */
+.projects-grid {
+  display: grid;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.project-card {
+  background: var(--card-gradient);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(58, 14, 111, 0.1);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.project-title {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.project-title:hover {
+  color: var(--primary-color);
+  opacity: 0.8;
+}
+
+.project-status {
+  font-size: 1rem;
+  color: var(--text-light);
+  font-weight: normal;
+  margin-left: 10px;
+}
+
+.project-card h2 {
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.project-card p {
+  color: var(--text-color);
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .project-title {
+    font-size: 1.3rem;
+  }
+  
+  .project-status {
+    display: block;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
+/* Estilo para os cards de conteúdo */
+.content-grid {
+  display: grid;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.content-card {
+  background: var(--card-gradient);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(58, 14, 111, 0.1);
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.content-card h2 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.content-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+/* Estilo para listas personalizadas */
+.custom-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-list li {
+  color: var(--text-color);
+  margin-bottom: 15px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.custom-list li:before {
+  content: "•";
+  color: var(--primary-color);
+  font-size: 1.2em;
+  position: absolute;
+  left: 0;
+}
+
+.status {
+  color: var(--text-light);
+  font-size: 0.9em;
+}
+
+/* Grid de habilidades */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.skill-category {
+  margin-bottom: 20px;
+}
+
+.skill-category h3 {
+  color: var(--primary-color);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+}
+
+.custom-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-list li {
+  color: var(--text-color);
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.custom-list li:before {
+  content: "•";
+  color: var(--primary-color);
+  font-size: 1.2em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Responsividade para skills */
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .skill-category h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Estilos para a página inicial */
+.content-sections {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px 40px;
+}
+
+.content-block {
+  margin-bottom: 80px;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: smoothIntro 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Delays para os blocos aparecerem após a introdução */
+.content-block:nth-child(1) {
+  animation-delay: 2s; /* Começa após a intro terminar */
+}
+
+.content-block:nth-child(2) {
+  animation-delay: 3s; /* 1s após o primeiro bloco */
+}
+
+.content-block:nth-child(3) {
+  animation-delay: 4s; /* 1s após o segundo bloco */
+}
+
+.content-block h3 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 30px;
+  position: relative;
+  padding-left: 25px;
+}
+
+.content-block h3::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 30px;
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.content-block p {
+  margin-bottom: 25px;
+  line-height: 1.8;
+  font-size: 1.2rem;
+  max-width: 1400px;
+}
+
+/* Remover animações antigas */
+.content-block.visible,
+.content-block.visible h3,
+.content-block.visible p {
+  opacity: 1;
+  transform: none;
+}
+
+/* Ajustes responsivos para a página inicial */
+@media (max-width: 1200px) {
+  .content-sections {
+    padding: 20px 30px;
+  }
+  
+  .content-block {
+    margin-bottom: 60px;
+  }
+  
+  .content-block h3 {
+    font-size: 1.8rem;
+  }
+  
+  .content-block p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-sections {
+    padding: 20px 20px;
+  }
+  
+  .content-block {
+    margin-bottom: 50px;
+  }
+  
+  .content-block h3 {
+    font-size: 1.6rem;
+  }
+  
+  .content-block p {
+    font-size: 1rem;
+  }
+}
+
+/* Animação da seção de introdução */
+.intro.center {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: smoothIntro 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes smoothIntro {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Remover animações anteriores */
+.intro.center img,
+.intro.center h1 {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.perfil.grande {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+
+@keyframes profileAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* Observador de Interseção para animações */
+.fade-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+

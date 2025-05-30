@@ -1,0 +1,1 @@
+// Arquivo pode ser removido, pois agora usamos apenas animações CSS 
