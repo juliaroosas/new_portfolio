@@ -6,15 +6,17 @@ const db = require('../config/database');
 
 // CREATE - Criar novo projeto
 router.post('/projetos', (req, res) => {
-    const { nome, categoria_id } = req.body;
-    const sql = 'INSERT INTO projetos (nome, categoria_id) VALUES (?, ?)';
+    const { nome, categoria_id, descricao, data } = req.body;
+    const sql = 'INSERT INTO projetos (nome, categoria_id, descricao, data) VALUES (?, ?, ?, ?)';
     
-    db.query(sql, [nome, categoria_id], (err, result) => {
+    db.query(sql, [nome, categoria_id, descricao, data], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ 
             id: result.insertId, 
             nome,
-            categoria_id
+            categoria_id,
+            descricao,
+            data
         });
     });
 });
