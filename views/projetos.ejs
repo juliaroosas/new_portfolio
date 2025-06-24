@@ -1,29 +1,122 @@
 <%- include('partials/header') %>
+
 <main class="container">
-  <h1>Projetos</h1>
+    <h2>Meus Projetos</h2>
+    
+    <div id="projetos-container" class="projetos-grid">
+        <!-- Os projetos serão carregados dinamicamente via JavaScript -->
+    </div>
 
-  <div class="projects-grid">
-    <article class="project-card">
-      <h2>
-        <a href="#" class="project-title">Dashboard de Impacto - Projeto Helpnei</a>
-        <span class="project-status">(em andamento)</span>
-      </h2>
-      <p>Projeto que consiste no desenvolvimento de um sistema de visualização inteligente com Dashboard de Indicadores para a plataforma Helpnei, voltado ao monitoramento em tempo real do impacto social e comercial gerado pelas ações de patrocínio.</p>
-    </article>
-
-    <article class="project-card">
-      <h2>
-        <a href="https://adivisa.vercel.app" target="_blank" class="project-title">Restaurante "A Divisa"</a>
-      </h2>
-      <p>Projeto final de um bootcamp realizado pela Coder House, que contou com o desenvolvimento de um site de um restaurante fictício com culinária de diferentes países da América Latina.</p>
-    </article>
-
-    <article class="project-card">
-      <h2>
-        <a href="http://api-vereadores.ddns.net" target="_blank" class="project-title">Consulta de Desempenho de Vereadores</a>
-      </h2>
-      <p>Projeto acadêmico que viabilizou o desenvolvimento de uma plataforma para os eleitores de São José dos Campos buscarem dados de vereadores na eleição de 2024.</p>
-    </article>
-  </div>
+    <!-- Formulário para adicionar novo projeto (apenas para administradores) -->
+    <div id="admin-form" class="admin-form" style="display: none;">
+        <h3>Adicionar Novo Projeto</h3>
+        <form id="projeto-form">
+            <div class="form-group">
+                <label for="nome">Nome do Projeto:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="categoria_id">Categoria:</label>
+                <select id="categoria_id" name="categoria_id" required>
+                    <!-- As categorias serão carregadas dinamicamente -->
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="imagem">URL da Imagem:</label>
+                <input type="url" id="imagem" name="imagem" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="link">Link do Projeto:</label>
+                <input type="url" id="link" name="link" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tecnologias">Tecnologias (separadas por vírgula):</label>
+                <input type="text" id="tecnologias" name="tecnologias" required>
+            </div>
+            
+            <button type="submit">Adicionar Projeto</button>
+        </form>
+    </div>
 </main>
+
+<script src="/js/api.js"></script>
+<script>
+    // Função para carregar categorias
+    async function carregarCategorias() {
+        try {
+            const response = await fetch('/api/categorias');
+            const categorias = await response.json();
+            const select = document.getElementById('categoria_id');
+            
+            categorias.forEach(categoria => {
+                const option = document.createElement('option');
+                option.value = categoria.id;
+                option.textContent = categoria.nome;
+                select.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar categorias:', error);
+        }
+    }
+
+    // Função para carregar projetos
+    async function carregarProjetos() {
+        try {
+            const response = await fetch('/api/projetos');
+            const projetos = await response.json();
+            const container = document.getElementById('projetos-container');
+            
+            container.innerHTML = projetos.map(projeto => `
+                <article class="project-card">
+                    <h2>${projeto.nome}</h2>
+                    <p>${projeto.descricao}</p>
+                    <div class="project-actions">
+                        <a href="${projeto.link}" target="_blank" class="btn-link">Ver projeto</a>
+                    </div>
+                </article>
+            `).join('');
+        } catch (error) {
+            console.error('Erro ao carregar projetos:', error);
+        }
+    }
+
+    // Manipulador do formulário
+    document.getElementById('projeto-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const projeto = {
+            nome: document.getElementById('nome').value,
+            descricao: document.getElementById('descricao').value,
+            categoria_id: document.getElementById('categoria_id').value,
+            imagem: document.getElementById('imagem').value,
+            link: document.getElementById('link').value,
+            tecnologias: document.getElementById('tecnologias').value
+        };
+        
+        try {
+            await addProjeto(projeto);
+            alert('Projeto adicionado com sucesso!');
+            carregarProjetos(); // Recarrega os projetos
+            e.target.reset(); // Limpa o formulário
+        } catch (error) {
+            alert('Erro ao adicionar projeto. Tente novamente.');
+        }
+    });
+
+    // Carregar dados quando a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        carregarCategorias();
+        carregarProjetos();
+    });
+</script>
+
 <%- include('partials/footer') %>

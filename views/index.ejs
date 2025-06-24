@@ -13,27 +13,34 @@
         </div>
       </div>
     </div>
-    <div class="content-sections">
-      <div class="content-block fade-in">
-        <h3>Sobre mim</h3>
-        <p>Sou a Julia, tenho 32 anos e sou aluna do 2º período do curso de <strong>Desenvolvimento de Software Multiplataforma</strong> da Fatec de São José dos Campos. Embora hoje eu esteja na área de tecnologia, tinha planos muitos diferentes quando saí do Ensino Médio. Vou te contar rapidinho!</p>
-      </div>
-
-      <div class="content-block fade-in">
-        <h3>Meu caminho até agora</h3>
-        <p>Aos 17 anos, ingressei no curso de Letras a fim de me tornar editora de livros. Algum tempo depois de me formar, alcancei esse objetivo e trabalhei, por aproximadamente 6 anos, produzindo livros didáticos. Além de habilidades específicas da área, desenvolvi habilidades de <strong>gerenciamento de projetos</strong>, já que fui responsável por acompanhar a produção de diversos livros do início ao fim.</p>
-
-        <p>Com a chegada da pandemia, comecei a trabalhar remotamente e a usar muito mais a tecnologia, o que me aproximou dessa área e foi aos poucos despertando a minha curiosidade, já que tive que aprender a usar diferentes ferramentas para a execução do meu trabalho e também para a <strong>comunicação com as equipes</strong>.</p>
-
-        <p>Além de editora, também fui professora. Certamente, essa experiência ampliou a minha visão de mundo e aprimorou minhas habilidades interpessoais. Nessa época, também tive contato com tecnologia educacional, o que me levou a refletir sobre a possibilidade de estudar formalmente sobre essa área que já despertava o meu interesse. Foi então que ingressei na Fatec.</p>
-      </div>
-
-      <div class="content-block fade-in">
-        <h3>Próximos passos</h3>
-        <p>Ao longo desse processo de transição de carreira, recebi a oportunidade de trabalhar com o desenvolvimento de aplicativos numa empresa de Educação, unindo duas áreas de que gosto bastante. Sei que este é só o começo de uma longa jornada de muito trabalho e aprendizado, mas pretendo seguir empenhada em projetos que garantam a <strong>integração entre diferentes áreas do conhecimento</strong>.</p>
-      </div>
+    <div class="content-sections" id="home-sections">
+      <!-- As seções serão carregadas dinamicamente via JavaScript -->
     </div>
   </div>
 </main>
+
+<script src="/js/api.js"></script>
+<script>
+    // Função para carregar seções da Home
+    async function carregarHomeSections() {
+        try {
+            const response = await fetch('/api/home');
+            const sections = await response.json();
+            const container = document.getElementById('home-sections');
+            
+            container.innerHTML = sections.map(section => `
+                <div class="content-block fade-in">
+                    <h3>${section.titulo}</h3>
+                    <p>${section.conteudo}</p>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Erro ao carregar seções da Home:', error);
+        }
+    }
+
+    // Carregar dados quando a página carregar
+    document.addEventListener('DOMContentLoaded', carregarHomeSections);
+</script>
 
 <%- include('partials/footer') %>

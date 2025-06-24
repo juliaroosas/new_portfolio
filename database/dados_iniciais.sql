@@ -1,55 +1,11 @@
--- Criar banco de dados
-CREATE DATABASE IF NOT EXISTS portfolio_db;
-USE portfolio_db;
+-- Limpar tabelas antes de inserir
+DELETE FROM home_sections;
+DELETE FROM formacao;
+DELETE FROM habilidades;
+DELETE FROM tecnologias;
+DELETE FROM projetos;
 
--- Tabela de Projetos
-CREATE TABLE IF NOT EXISTS projetos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    descricao TEXT,
-    imagem VARCHAR(255),
-    link VARCHAR(255)
-);
-
--- Tabela de Habilidades
-CREATE TABLE IF NOT EXISTS habilidades (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    nivel VARCHAR(50) NOT NULL,
-    categoria VARCHAR(50) NOT NULL
-);
-
--- Tabela de Tecnologias
-CREATE TABLE IF NOT EXISTS tecnologias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    nivel VARCHAR(50) NOT NULL,
-    icone VARCHAR(255)
-);
-
--- Tabela de Formação
-CREATE TABLE IF NOT EXISTS formacao (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    instituicao VARCHAR(255) NOT NULL,
-    curso VARCHAR(255) NOT NULL,
-    periodo VARCHAR(100) NOT NULL,
-    descricao TEXT,
-    tipo ENUM('academica', 'complementar') NOT NULL DEFAULT 'academica'
-);
-
--- Tabela para a seção Home
-CREATE TABLE IF NOT EXISTS home_sections (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(100) NOT NULL,
-    conteudo TEXT NOT NULL,
-    ordem INT NOT NULL,
-    tipo ENUM('sobre', 'caminho', 'proximos') NOT NULL
-);
-
-DROP TABLE IF EXISTS contato_links;
-
--- Dados iniciais
-
+-- Home
 INSERT INTO home_sections (titulo, conteudo, ordem, tipo) VALUES
 ('Sobre mim',
 'Sou a Julia, tenho 32 anos e sou aluna do 2º período do curso de <strong>Desenvolvimento de Software Multiplataforma</strong> da Fatec de São José dos Campos. Embora hoje eu esteja na área de tecnologia, tinha planos muitos diferentes quando saí do Ensino Médio. Vou te contar um pouquinho!',
@@ -63,30 +19,38 @@ INSERT INTO home_sections (titulo, conteudo, ordem, tipo) VALUES
 'Ao longo desse processo de transição de carreira, recebi a oportunidade de trabalhar com o desenvolvimento de aplicativos numa empresa de Educação, unindo duas áreas de que gosto bastante. Sei que este é só o começo de uma longa jornada de muito trabalho e aprendizado, mas pretendo seguir empenhada em projetos que garantam a integração entre diferentes áreas do conhecimento.',
 3, 'proximos');
 
+-- Formação Acadêmica
 INSERT INTO formacao (instituicao, curso, periodo, descricao, tipo) VALUES
 ('Fatec São José dos Campos', 'Desenvolvimento de Software Multiplataforma', 'em andamento', '', 'academica'),
 ('Unicamp', 'Mestrado em Linguística', '2015–2017', '', 'academica'),
 ('UFLA', 'Licenciatura em Letras', '2011–2014', '', 'academica');
 
+-- Formação Complementar
 INSERT INTO formacao (instituicao, curso, periodo, descricao, tipo) VALUES
 ('Coder House', 'HTML e CSS', '', '', 'complementar'),
 ('Centro Paula Souza', 'Escola de Inovadores', '', '', 'complementar');
 
-DELETE FROM habilidades;
-
+-- Habilidades
 INSERT INTO habilidades (nome, categoria, nivel) VALUES
-('HTML, CSS', 'Front-end', 'Avançado'),
-('Bootstrap, Tailwind CSS', 'Front-end', 'Intermediário'),
-('JavaScript, TypeScript', 'Front-end', 'Intermediário'),
+('HTML', 'Front-end', 'Avançado'),
+('CSS', 'Front-end', 'Avançado'),
+('Bootstrap', 'Front-end', 'Intermediário'),
+('Tailwind CSS', 'Front-end', 'Intermediário'),
+('JavaScript', 'Front-end', 'Intermediário'),
+('TypeScript', 'Front-end', 'Básico'),
 ('React', 'Front-end', 'Básico'),
 ('Node.js', 'Back-end', 'Básico'),
-('Python, Flask', 'Back-end', 'Básico'),
+('Python', 'Back-end', 'Básico'),
+('Flask', 'Back-end', 'Básico'),
 ('SQL', 'Back-end', 'Básico'),
 ('Git', 'Ferramentas', 'Intermediário'),
 ('Power Apps', 'Ferramentas', 'Intermediário'),
-('Asana, Jira, Trello', 'Ferramentas', 'Avançado'),
+('Asana', 'Ferramentas', 'Avançado'),
+('Jira', 'Ferramentas', 'Intermediário'),
+('Trello', 'Ferramentas', 'Avançado'),
 ('Scrum', 'Metodologias', 'Intermediário');
 
+-- Tecnologias
 INSERT INTO tecnologias (nome, nivel, icone) VALUES
 ('HTML5', 'Avançado', 'fab fa-html5'),
 ('CSS3', 'Avançado', 'fab fa-css3-alt'),
@@ -97,17 +61,16 @@ INSERT INTO tecnologias (nome, nivel, icone) VALUES
 ('SQL', 'Básico', 'fas fa-database'),
 ('Git', 'Intermediário', 'fab fa-git');
 
-INSERT INTO projetos (nome, descricao, link, imagem) VALUES
+-- Projetos
+INSERT INTO projetos (nome, descricao, detalhes, link, imagem, tecnologias) VALUES
 ('Dashboard de Impacto - Projeto Helpnei',
 'Projeto que consistiu no desenvolvimento de um sistema de visualização inteligente com Dashboard de Indicadores para a plataforma Helpnei, voltado ao monitoramento em tempo real do impacto social e comercial gerado pelas ações de patrocínio.',
-'#', '/images/projetos/helpnei.jpg'),
+'', '#', '/images/projetos/helpnei.jpg', 'React, Node.js, SQL, Power BI'),
 
 ('Restaurante "A Divisa"',
 'Projeto final de um bootcamp realizado pela Coder House, que contou com o desenvolvimento de um site de um restaurante fictício com culinária de diferentes países da América Latina.',
-'https://adivisa.vercel.app', '/images/projetos/adivisa.jpg'),
+'', 'https://adivisa.vercel.app', '/images/projetos/adivisa.jpg', 'HTML, CSS, JavaScript, Bootstrap'),
 
 ('Consulta de Desempenho de Vereadores',
 'Projeto acadêmico que viabilizou o desenvolvimento de uma plataforma para os eleitores de São José dos Campos buscarem dados de vereadores na eleição de 2024.',
-'http://api-vereadores.ddns.net', '/images/projetos/vereadores.jpg');
-
-DROP TABLE IF EXISTS contato; 
+'', 'http://api-vereadores.ddns.net', '/images/projetos/vereadores.jpg', 'Python, Flask, SQL, HTML, CSS'); 

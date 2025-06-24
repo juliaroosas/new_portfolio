@@ -1,61 +1,136 @@
 <%- include('partials/header') %>
+
 <main class="container">
-  <h1>Formação e Habilidades</h1>
-
-  <div class="content-grid">
-    <article class="content-card">
-      <h2>Formação Acadêmica</h2>
-      <ul class="custom-list">
-        <li>Desenvolvimento de Software Multiplataforma – Fatec São José dos Campos <span class="status">(em andamento)</span></li>
-        <li>Mestrado em Linguística – Unicamp (2015–2017)</li>
-        <li>Licenciatura em Letras – UFLA (2011–2014)</li>
-      </ul>
-    </article>
-
-    <article class="content-card">
-      <h2>Formação Complementar</h2>
-      <ul class="custom-list">
-        <li>HTML e CSS (Coder House)</li>
-        <li>Escola de Inovadores – Centro Paula Souza</li>
-      </ul>
-    </article>
-
-    <article class="content-card">
-      <h2>Habilidades</h2>
-      <div class="skills-grid">
-        <div class="skill-category">
-          <h3>Front-end</h3>
-          <ul class="custom-list">
-            <li>HTML, CSS</li>
-            <li>Bootstrap, Tailwind CSS</li>
-            <li>JavaScript, TypeScript</li>
-            <li>React</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3>Back-end</h3>
-          <ul class="custom-list">
-            <li>Node.js</li>
-            <li>Python, Flask</li>
-            <li>SQL</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3>Ferramentas</h3>
-          <ul class="custom-list">
-            <li>Git</li>
-            <li>Power Apps</li>
-            <li>Asana, Jira, Trello</li>
-          </ul>
-        </div>
-        <div class="skill-category">
-          <h3>Metodologias</h3>
-          <ul class="custom-list">
-            <li>Scrum</li>
-          </ul>
-        </div>
-      </div>
-    </article>
-  </div>
+    <div class="content-grid">
+        <article class="content-card">
+            <h2>Formação</h2>
+            <div id="formacao-container">
+                <!-- A formação será carregada dinamicamente via JavaScript -->
+            </div>
+        </article>
+        <article class="content-card">
+            <h2>Habilidades</h2>
+            <div id="habilidades-container" class="skills-grid">
+                <!-- As habilidades serão carregadas dinamicamente via JavaScript -->
+            </div>
+        </article>
+    </div>
+    <!-- Formulário para adicionar nova formação (apenas para administradores) -->
+    <div id="admin-form" class="admin-form" style="display: none;">
+        <h3>Adicionar Nova Formação</h3>
+        <form id="formacao-form">
+            <div class="form-group">
+                <label for="instituicao">Instituição:</label>
+                <input type="text" id="instituicao" name="instituicao" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="curso">Curso:</label>
+                <input type="text" id="curso" name="curso" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="periodo">Período:</label>
+                <input type="text" id="periodo" name="periodo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" required></textarea>
+            </div>
+            
+            <button type="submit">Adicionar Formação</button>
+        </form>
+    </div>
 </main>
+
+<script src="/js/api.js"></script>
+<script>
+    // Função para carregar formação
+    async function carregarFormacao() {
+        try {
+            const response = await fetch('/api/formacao');
+            const formacoes = await response.json();
+            const container = document.getElementById('formacao-container');
+            
+            // Separar formação acadêmica e complementar
+            const formacaoAcademica = formacoes.filter(f => f.tipo === 'academica');
+            const formacaoComplementar = formacoes.filter(f => f.tipo === 'complementar');
+            
+            container.innerHTML = `
+                <h3>Acadêmica</h3>
+                <ul class="custom-list">
+                    ${formacaoAcademica.map(f => `
+                        <li>${f.curso} – ${f.instituicao} 
+                            ${f.periodo.includes('em andamento') ? '<span class="status">(em andamento)</span>' : ''}
+                        </li>
+                    `).join('')}
+                </ul>
+                <h3>Complementar</h3>
+                <ul class="custom-list">
+                    ${formacaoComplementar.map(f => `
+                        <li>${f.curso} – ${f.instituicao}</li>
+                    `).join('')}
+                </ul>
+            `;
+        } catch (error) {
+            console.error('Erro ao carregar formação:', error);
+        }
+    }
+
+    // Manipulador do formulário
+    document.getElementById('formacao-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formacao = {
+            instituicao: document.getElementById('instituicao').value,
+            curso: document.getElementById('curso').value,
+            periodo: document.getElementById('periodo').value,
+            descricao: document.getElementById('descricao').value
+        };
+        
+        try {
+            await addFormacao(formacao);
+            alert('Formação adicionada com sucesso!');
+            carregarFormacao(); // Recarrega a formação
+            e.target.reset(); // Limpa o formulário
+        } catch (error) {
+            alert('Erro ao adicionar formação. Tente novamente.');
+        }
+    });
+
+    // Função para carregar habilidades agrupadas por categoria
+    async function carregarHabilidades() {
+        try {
+            const response = await fetch('/api/habilidades');
+            const habilidades = await response.json();
+            const container = document.getElementById('habilidades-container');
+            if (!container) return;
+
+            // Agrupar habilidades por categoria
+            const categorias = ['Front-end', 'Back-end', 'Ferramentas', 'Metodologias'];
+            container.innerHTML = categorias.map(cat => {
+                const habs = habilidades.filter(h => h.categoria === cat);
+                if (habs.length === 0) return '';
+                return `
+                    <div class="skill-category">
+                        <h3>${cat}</h3>
+                        <ul class="custom-list">
+                            ${habs.map(h => `<li>${h.nome}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('Erro ao carregar habilidades:', error);
+        }
+    }
+
+    // Carregar dados quando a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        carregarFormacao();
+        carregarHabilidades();
+    });
+</script>
+
 <%- include('partials/footer') %>
